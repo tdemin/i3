@@ -492,6 +492,8 @@ void x_draw_decoration(Con *con) {
     /* find out which colors to use */
     if (con->urgent)
         p->color = &config.client.urgent;
+    else if (focused->type == CT_WORKSPACE && desktop_window != XCB_NONE)
+        p->color = &config.client.focused_inactive;
     else if (con == focused || con_inside_focused(con))
         p->color = &config.client.focused;
     else if (con == TAILQ_FIRST(&(parent->focus_head)))
@@ -1274,6 +1276,12 @@ void x_push_changes(Con *con) {
     xcb_window_t to_focus = focused->frame.id;
     if (focused->window != NULL)
         to_focus = focused->window->id;
+
+    if (focused->type == CT_WORKSPACE && desktop_window != XCB_NONE) {
+        to_focus = desktop_window;
+        /* assume that the desktop window is mapped */
+        focused->mapped = true;
+    }
 
     if (focused_id != to_focus) {
         if (!focused->mapped) {

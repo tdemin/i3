@@ -1331,6 +1331,13 @@ void cmd_focus_window_mode(I3_CMD, const char *window_mode) {
     Con *ws = con_get_workspace(focused);
     Con *current;
     bool success = false;
+
+    if (strcmp(window_mode, "tiling") == 0 && TAILQ_EMPTY(&(ws->nodes_head)) && desktop_window != XCB_NONE) {
+        con_focus(ws);
+        success = true;
+        goto end;
+    }
+
     TAILQ_FOREACH (current, &(ws->focus_head), focused) {
         if ((to_floating && current->type != CT_FLOATING_CON) ||
             (!to_floating && current->type == CT_FLOATING_CON))
@@ -1341,6 +1348,7 @@ void cmd_focus_window_mode(I3_CMD, const char *window_mode) {
         break;
     }
 
+end:
     if (success) {
         cmd_output->needs_tree_render = true;
         ysuccess(true);

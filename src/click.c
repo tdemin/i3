@@ -350,7 +350,13 @@ void handle_button_press(xcb_button_press_event_t *event) {
             return;
         }
 
-        ELOG("Clicked into unknown window?!\n");
+        if (desktop_window != XCB_NONE && event->event == desktop_window) {
+            Con *ws = con_get_workspace(focused);
+            con_focus(ws);
+            return route_click(ws, event, mod_pressed, CLICK_INSIDE);
+        } else {
+            ELOG("Clicked into unknown window?!\n");
+        }
         xcb_allow_events(conn, XCB_ALLOW_REPLAY_POINTER, event->time);
         xcb_flush(conn);
         return;

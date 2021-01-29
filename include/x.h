@@ -15,6 +15,9 @@
 /** Stores the X11 window ID of the currently focused window */
 extern xcb_window_t focused_id;
 
+/** Stores window ID of the desktop window */
+extern xcb_window_t desktop_window;
+
 /**
  * Initializes the X11 part for the given container. Called exactly once for
  * every container from con_new().

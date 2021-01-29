@@ -14,6 +14,8 @@ struct Con *focused;
 
 struct all_cons_head all_cons = TAILQ_HEAD_INITIALIZER(all_cons);
 
+xcb_window_t desktop_window = XCB_NONE;
+
 /*
  * Create the pseudo-output __i3. Output-independent workspaces such as
  * __i3_scratch will live there.

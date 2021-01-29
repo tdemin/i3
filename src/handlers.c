@@ -147,6 +147,21 @@ static void handle_enter_notify(xcb_enter_notify_event_t *event) {
         enter_child = true;
     }
 
+    if (desktop_window != XCB_NONE && event->event == desktop_window) {
+        /* this check stops the desktop window from stealing the focus
+         * when a floating windw is focused through a command/keybinding but
+         * the pointer is still on the desktop window */
+        if (event->detail == XCB_NOTIFY_DETAIL_NONLINEAR) {
+            if (config.disable_focus_follows_mouse == false) {
+                Con *ws = con_get_workspace(focused);
+                con_focus(ws);
+                tree_render();
+            }
+        } else {
+            return;
+        }
+    }
+
     /* If we cannot find the container, the user moved their cursor to the root
      * window. In this case and if they used it to a dock, we need to focus the
      * workspace on the correct output. */

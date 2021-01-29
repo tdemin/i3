@@ -1431,6 +1431,9 @@ void con_move_to_workspace(Con *con, Con *workspace, bool fix_coordinates, bool 
         return;
     }
 
+    if (focused->type == CT_WORKSPACE && desktop_window != XCB_NONE)
+        return;
+
     Con *target = con_descend_focused(workspace);
     _con_move_to_con(con, target, true, fix_coordinates, dont_warp, ignore_focus, true);
 }
