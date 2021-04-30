@@ -242,6 +242,8 @@ void manage_window(xcb_window_t window, xcb_get_window_attributes_cookie_t cooki
         xcb_map_window(conn, window);
         values[0] = XCB_EVENT_MASK_ENTER_WINDOW;
         xcb_change_window_attributes(conn, window, XCB_CW_EVENT_MASK, values);
+        values[0] = XCB_STACK_MODE_BELOW;
+        xcb_configure_window (conn, window, XCB_CONFIG_WINDOW_STACK_MODE, values);
         xcb_flush(conn);
         goto geom_out;
     }
