@@ -10,6 +10,16 @@ I've ported it to the latest i3-gaps.
 
 See [the original patch README](README.desktop.md).
 
+## Installing
+
+If you're an Arch Linux user, there's an
+[AUR package](https://aur.archlinux.org/packages/i3-gaps-desktop/)
+`i3-gaps-desktop`:
+
+```
+% yay -S i3-gaps-desktop
+```
+
 ## Copying
 
 See [LICENSE](LICENSE).
